@@ -13,9 +13,6 @@ const uint8_t maxBrightness = 60;
 // The pixel array to display
 grbw  pixels[numPixels] = {};
 
-int k = 0;
-int b = 0;
-uint8_t iter = 3;
 void setup()
 {
 	Serial.begin(921600);
@@ -49,7 +46,6 @@ void blink_leds(char color_r, char color_b, char color_g, char color_w)
 char readBuffer[numPixels * 5];
 void loop()
 {
-
 	if (Serial.available())
 	{
 		int count = Serial.read() * 5;
@@ -58,11 +54,10 @@ void loop()
 		int read_count = Serial.readBytes(readBuffer, count);
 
 		if (read_count == 0)
-		{
 			blink_leds(maxBrightness, 0, 0, 0);
-		}
+		
 		Serial.println("ACK");
-
+		
 		for (size_t i = 0; i < count; i++)
 		{
 			byte pos = readBuffer[i++];
@@ -73,9 +68,4 @@ void loop()
 		}
 		strip.sendPixels(numPixels, pixels);
 	}
-
-
-	return;
 }
-
-
